@@ -1,0 +1,22 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "lightsail:GetInstance",
+        "lightsail:GetInstanceMetricData",
+        "lightsail:GetOperations",
+        "lightsail:GetOperationsForResource",
+        "lightsail:RebootInstance",
+        "lightsail:GetStaticIp",
+        "lightsail:GetStaticIps",
+        "lightsail:AllocateStaticIp",
+        "lightsail:AttachStaticIp",
+        "lightsail:DetachStaticIp",
+        "lightsail:ReleaseStaticIp"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
