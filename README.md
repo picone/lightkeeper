@@ -34,7 +34,7 @@ static IP exists. A Redis lock stops two rotations from running at the same time
 - Single admin user: `ADMIN_USERNAME` plus an scrypt hash in `ADMIN_PASSWORD_HASH`
 - 5 failed attempts for a username **or** an IP lock logins for 15 minutes. The counters are stored in
   Upstash Redis, so the lock holds across serverless instances.
-- The session is an HMAC-signed cookie (`HttpOnly`, `Secure`, `SameSite=Strict`) that lasts 12 hours.
+- The session is an HMAC-signed cookie (`HttpOnly`, `Secure`, `SameSite=Strict`) that lasts 365 days.
   To sign everyone out, rotate `SESSION_SECRET`.
 - Write endpoints also check that the `Origin` header matches the host.
 

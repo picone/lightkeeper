@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { authConfig } from "./env";
 
 export const SESSION_COOKIE = "lk_session";
-export const SESSION_TTL_SECONDS = 12 * 60 * 60;
+export const SESSION_TTL_SECONDS = 365 * 24 * 60 * 60;
 
 type Session = { u: string; exp: number };
 
