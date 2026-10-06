@@ -99,6 +99,22 @@ th { color: var(--muted); font-weight: 500; font-size: 12px; }
 .chart-modal-body { width: min(1400px, 100%); height: min(800px, 100%); display: flex; flex-direction: column; }
 .chart-modal-chart { flex: 1; min-height: 0; }
 
+/* Landscape toggle: touch devices only, and only while held upright (or once already on). */
+.landscape-btn { display: none; }
+.landscape-btn.on { display: inline-block; }
+@media (hover: none) and (pointer: coarse) and (orientation: portrait) {
+  .landscape-btn { display: inline-block; }
+}
+.chart-modal.rotated { padding: 0; }
+.chart-modal.rotated .chart-modal-body {
+  position: fixed; top: 50%; left: 50%;
+  width: 100vh; height: 100vw; width: 100dvh; height: 100dvw;
+  border-radius: 0; border: 0;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+.chart-modal.rotated .chart-modal-chart { touch-action: none; }
+.chart-modal.rotated .chart-modal-chart > * { pointer-events: none; }
+
 .login { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
 .login-card { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 12px; }
 .login-card label { display: flex; flex-direction: column; gap: 4px; color: var(--muted); }
