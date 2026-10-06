@@ -49,6 +49,8 @@ export default function TimeChart({ title, height = 220, ...chart }: Props) {
  * - "native": fullscreen + screen.orientation.lock (Android Chrome). The chart works as usual.
  * - "css": the dialog is rotated 90° with CSS (iOS, which has no orientation lock). Recharts
  *   ignores the rotation when mapping touches, so the tooltip index is computed here instead.
+ *   It also measures its legend with getBoundingClientRect, which comes back with width and
+ *   height swapped and collapses the plot, so the legend is drawn in HTML instead.
  */
 type Landscape = "off" | "native" | "css";
 
@@ -144,8 +146,17 @@ function ChartModal({ title, chart, onClose }: { title?: string; chart: ChartPro
           onPointerMove={rotated ? (e) => pickPoint(e.clientY) : undefined}
         >
           {/* Remount on mode change: Recharts ignores defaultIndex once it has seen pointer input. */}
-          <Chart key={landscape} {...chart} height="100%" tooltipIndex={rotated ? tooltipIndex : undefined} />
+          <Chart key={landscape} {...chart} height="100%" tooltipIndex={rotated ? tooltipIndex : undefined} legend={!rotated} />
         </div>
+        {rotated && chart.series.length > 1 && (
+          <ul className="chart-legend">
+            {chart.series.map((s) => (
+              <li key={s.key} style={{ color: s.color }}>
+                {s.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
@@ -165,7 +176,8 @@ function Chart({
   days,
   height,
   tooltipIndex,
-}: ChartProps & { height: number | `${number}%`; tooltipIndex?: number | null }) {
+  legend = true,
+}: ChartProps & { height: number | `${number}%`; tooltipIndex?: number | null; legend?: boolean }) {
   // undefined: Recharts tracks the pointer itself. A number or null: the caller controls the tooltip.
   const controlled = tooltipIndex !== undefined;
   return (
@@ -189,7 +201,7 @@ function Chart({
           contentStyle={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 8 }}
           {...(controlled && { active: tooltipIndex !== null, defaultIndex: tooltipIndex ?? undefined })}
         />
-        {series.length > 1 && <Legend />}
+        {legend && series.length > 1 && <Legend />}
         {series.map((s) => (
           <Line key={s.key} dataKey={s.key} name={s.name} stroke={s.color} dot={false} strokeWidth={1.5} isAnimationActive={false} />
         ))}

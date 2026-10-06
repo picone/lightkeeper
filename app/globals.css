@@ -114,6 +114,8 @@ th { color: var(--muted); font-weight: 500; font-size: 12px; }
 }
 .chart-modal.rotated .chart-modal-chart { touch-action: none; }
 .chart-modal.rotated .chart-modal-chart > * { pointer-events: none; }
+.chart-legend { list-style: none; margin: 4px 0 0; padding: 0; display: flex; justify-content: center; gap: 16px; font-size: 12px; }
+.chart-legend li::before { content: ""; display: inline-block; width: 14px; height: 2px; margin: 0 6px 3px 0; background: currentColor; vertical-align: middle; }
 
 .login { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
 .login-card { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 12px; }
