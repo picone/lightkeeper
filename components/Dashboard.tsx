@@ -280,11 +280,12 @@ function MetricsCard({ status, days }: { status: Loadable<Status>; days: Range }
         <div className="grid">
           <div>
             <h3>CPU 使用率</h3>
-            <TimeChart data={cpu} days={days} format={(v) => `${v.toFixed(1)}%`} series={[{ key: "cpu", name: "CPU", color: "var(--c1)" }]} />
+            <TimeChart title="CPU 使用率" data={cpu} days={days} format={(v) => `${v.toFixed(1)}%`} series={[{ key: "cpu", name: "CPU", color: "var(--c1)" }]} />
           </div>
           <div>
             <h3>网络 IO <span className="muted">入 {formatBytes(totalIn)} · 出 {formatBytes(totalOut)}</span></h3>
             <TimeChart
+              title="网络 IO"
               data={network}
               days={days}
               format={(v) => `${formatBytes(v)}/s`}
@@ -296,7 +297,7 @@ function MetricsCard({ status, days }: { status: Loadable<Status>; days: Range }
           </div>
           <div>
             <h3>状态检查失败 <span className="muted">共 {failedChecks} 次</span></h3>
-            <TimeChart data={checks} days={days} height={140} format={(v) => String(Math.round(v))} series={[{ key: "failed", name: "失败", color: "var(--danger)" }]} />
+            <TimeChart title="状态检查失败" data={checks} days={days} height={140} format={(v) => String(Math.round(v))} series={[{ key: "failed", name: "失败", color: "var(--danger)" }]} />
           </div>
         </div>
       )}
@@ -346,6 +347,7 @@ function TrafficCard({ traffic, days, instanceIp }: { traffic: Loadable<Traffic>
               );
             })}
             <TimeChart
+              title="DNS 解析次数"
               data={dnsSeries}
               days={days}
               format={formatNumber}
@@ -363,6 +365,7 @@ function TrafficCard({ traffic, days, instanceIp }: { traffic: Loadable<Traffic>
                 </h3>
                 {dnsOnly && <p className="banner warn">该记录未开启代理（灰色云朵），Cloudflare 统计不到 HTTP 流量</p>}
                 <TimeChart
+                  title={`${host.host} 请求数`}
                   data={host.series.map((p) => ({ t: p.t, requests: p.requests }))}
                   days={days}
                   height={160}
@@ -370,6 +373,7 @@ function TrafficCard({ traffic, days, instanceIp }: { traffic: Loadable<Traffic>
                   series={[{ key: "requests", name: "请求数", color: "var(--c1)" }]}
                 />
                 <TimeChart
+                  title={`${host.host} 流量`}
                   data={host.series.map((p) => ({ t: p.t, bytes: p.bytes }))}
                   days={days}
                   height={160}
