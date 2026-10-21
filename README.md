@@ -5,7 +5,7 @@ A small admin panel on Vercel for one AWS Lightsail instance and its Cloudflare 
 - Instance status and 1/3/7-day CPU, network, and status-check metrics
 - Lightsail operation log
 - One-click reboot
-- Cloudflare traffic (requests / bytes) for `a.picone.asia` and `b.picone.asia`
+- Cloudflare traffic (requests / bytes) for the hosts in `CF_TRAFFIC_HOSTS`
 - One-click static IP rotation, with DNS update
 
 All AWS and Cloudflare calls run in server-side route handlers. Secrets live only in Vercel
@@ -18,7 +18,7 @@ component fails the build.
 
 1. Validate configuration
 2. Read the static IPs
-3. Detach the IP currently attached to the instance (initially `StaticIp-1`)
+3. Detach the IP currently attached to the instance
 4. Release (delete) it
 5. Allocate `StaticIp-<timestamp>`
 6. Attach it to the instance
@@ -44,7 +44,7 @@ Use a username that isn't easy to guess.
 ## Setup
 
 1. **AWS**: create an IAM user with [iam-policy.json](iam-policy.json) and generate an access key for it.
-2. **Cloudflare**: create an API token for the `picone.asia` zone with the `Zone → DNS → Edit` and
+2. **Cloudflare**: create an API token for your zone with the `Zone → DNS → Edit` and
    `Zone → Analytics → Read` permissions. Copy the zone ID from the zone overview page.
 3. **Password hash**:
    ```bash

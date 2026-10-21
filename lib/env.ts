@@ -28,12 +28,12 @@ export function awsConfig() {
   read("AWS_SECRET_ACCESS_KEY");
   return {
     region: matching("AWS_REGION", AWS_REGION),
-    instanceName: matching("LIGHTSAIL_INSTANCE", LIGHTSAIL_NAME, "FlyToSig"),
+    instanceName: matching("LIGHTSAIL_INSTANCE", LIGHTSAIL_NAME),
   };
 }
 
 export function cloudflareConfig() {
-  const recordNames = read("CF_RECORD_NAMES", "a.picone.asia,b.picone.asia")
+  const recordNames = read("CF_RECORD_NAMES")
     .split(",")
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
@@ -41,7 +41,8 @@ export function cloudflareConfig() {
     throw new ConfigError("环境变量 CF_RECORD_NAMES 格式错误");
   }
   // Hosts whose HTTP traffic is charted; the rest only get DNS query counts.
-  const trafficHosts = read("CF_TRAFFIC_HOSTS", "a.picone.asia")
+  // Defaults to every record in CF_RECORD_NAMES.
+  const trafficHosts = read("CF_TRAFFIC_HOSTS", recordNames.join(","))
     .split(",")
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
